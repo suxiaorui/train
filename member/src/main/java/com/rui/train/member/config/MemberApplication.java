@@ -16,5 +16,4 @@ public class MemberApplication {
         SpringApplication.run(MemberApplication.class, args);
         LOG.info("启动成功~");
     }
-
 }

@@ -1,3 +1,74 @@
+GET http://localhost:8000/member/hello
+Accept: application/json
+
+<> 2023-08-09T152226.200.json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+<> 2023-08-09T152221.200.json
+
+###
+
+GET http://localhost:8000/member/hello
+Accept: application/json
+
+<> 2023-08-09T152218.200.json
+
+###
+
+GET http://localhost:8000/member/hello
+Accept: application/json
+
+<> 2023-08-09T152214.200.json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+<> 2023-08-09T152211.200.json
+
+###
+
+GET http://localhost:8000/member/hello
+Accept: application/json
+
+<> 2023-08-09T152117.200.json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+<> 2023-08-09T152113.200.json
+
+###
+
+GET http://localhost:8000/member/hello
+Accept: application/json
+
+<> 2023-08-09T151147.500.json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+###
+
 GET http://localhost:8001/member/hello
 Accept: application/json
 
