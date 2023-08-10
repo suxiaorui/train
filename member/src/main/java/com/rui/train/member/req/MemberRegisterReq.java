@@ -1,5 +1,7 @@
 package com.rui.train.member.req;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * @Author suxiaorui
  * @Description TODO
@@ -8,7 +10,7 @@ package com.rui.train.member.req;
  */
 public class MemberRegisterReq {
 
-//    @NotBlank(message = "【手机号】不能为空")
+    @NotBlank(message = "【手机号】不能为空")
     private String mobile;
 
     public String getMobile() {
