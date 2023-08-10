@@ -1,3 +1,38 @@
+GET http://localhost:8000/member/member/count
+Accept: application/json
+
+<> 2023-08-10T191612.200.json
+
+###
+
+GET http://localhost:8000/member/member/count
+Accept: application/json
+
+<> 2023-08-10T191450.200.json
+
+###
+
+GET http://localhost:8000/member/hello
+Accept: application/json
+
+<> 2023-08-10T185417.200.json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+<> 2023-08-10T185414.200.json
+
+###
+
+GET http://localhost:8001/member/hello
+Accept: application/json
+
+<> 2023-08-10T185400.200.json
+
+###
+
 GET http://localhost:8000/member/hello
 Accept: application/json
 
