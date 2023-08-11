@@ -1,8 +1,10 @@
 package com.rui.train.member.controller;
 
 import com.rui.train.common.resp.CommonResp;
+import com.rui.train.member.req.MemberLoginReq;
 import com.rui.train.member.req.MemberRegisterReq;
 import com.rui.train.member.req.MemberSendCodeReq;
+import com.rui.train.member.resp.MemberLoginResp;
 import com.rui.train.member.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,10 @@ public class MemberController {
         return new CommonResp<>();
     }
 
-
+    @PostMapping("/login")
+    public CommonResp<MemberLoginResp> login(@Valid MemberLoginReq req) {
+        MemberLoginResp resp = memberService.login(req);
+        return new CommonResp<>(resp);
+    }
 
 }
