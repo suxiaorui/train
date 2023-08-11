@@ -3,9 +3,9 @@ package com.rui.train.member.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
 import com.rui.train.common.exception.BusinessException;
 import com.rui.train.common.exception.BusinessExceptionEnum;
+import com.rui.train.common.util.JwtUtil;
 import com.rui.train.common.util.SnowUtil;
 import com.rui.train.member.domain.Member;
 import com.rui.train.member.domain.MemberExample;
@@ -102,6 +102,8 @@ public class MemberService {
         }
 
         MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        String token = JwtUtil.createToken(memberLoginResp.getId(), memberLoginResp.getMobile());
+        memberLoginResp.setToken(token);
         return memberLoginResp;
     }
 
