@@ -4,7 +4,9 @@ import com.rui.train.member.domain.Passenger;
 import com.rui.train.member.domain.PassengerExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PassengerMapper {
     long countByExample(PassengerExample example);
 
