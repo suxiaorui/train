@@ -3,8 +3,13 @@ Content-Type: application/json
 token: {{token}}
 
 {
-  "name": "2222",
+  "name": "12",
   "idCard": "123123",
   "type": "1"
-
 }
+
+###
+
+GET http://localhost:8000/member/passenger/query-list
+Accept: application/json
+token: {{token}}
