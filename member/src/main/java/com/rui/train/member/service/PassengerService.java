@@ -3,8 +3,10 @@ package com.rui.train.member.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rui.train.common.context.LoginMemberContext;
+import com.rui.train.common.resp.PageResp;
 import com.rui.train.common.util.SnowUtil;
 import com.rui.train.member.domain.Passenger;
 import com.rui.train.member.domain.PassengerExample;
@@ -12,6 +14,8 @@ import com.rui.train.member.mapper.PassengerMapper;
 import com.rui.train.member.req.PassengerQueryReq;
 import com.rui.train.member.req.PassengerSaveReq;
 import com.rui.train.member.resp.PassengerQueryResp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +28,9 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-public class PassengerService {
+public class PassengerService{
+
+    private static final Logger LOG = LoggerFactory.getLogger(PassengerService.class);
 
     @Autowired
     private PassengerMapper passengerMapper;
@@ -44,13 +50,28 @@ public class PassengerService {
         }
     }
 
-    public List<PassengerQueryResp> queryList(PassengerQueryReq req){
+    public PageResp<PassengerQueryResp> queryList(PassengerQueryReq req) {
         PassengerExample passengerExample = new PassengerExample();
+        passengerExample.setOrderByClause("id desc");
         PassengerExample.Criteria criteria = passengerExample.createCriteria();
-        if (ObjectUtil.isNotNull(req.getMemberId())){
+        if (ObjectUtil.isNotNull(req.getMemberId())) {
             criteria.andMemberIdEqualTo(req.getMemberId());
         }
+
+        LOG.info("查询页码：{}", req.getPage());
+        LOG.info("每页条数：{}", req.getSize());
+        PageHelper.startPage(req.getPage(), req.getSize());
         List<Passenger> passengerList = passengerMapper.selectByExample(passengerExample);
-        return BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
+
+        PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
+        LOG.info("总行数：{}", pageInfo.getTotal());
+        LOG.info("总页数：{}", pageInfo.getPages());
+
+        List<PassengerQueryResp> list = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
+
+        PageResp<PassengerQueryResp> pageResp = new PageResp<>();
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(list);
+        return pageResp;
     }
 }

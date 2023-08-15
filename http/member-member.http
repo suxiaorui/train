@@ -16,7 +16,7 @@ POST http://localhost:8000/member/member/send-code
 Content-Type: application/json
 
 {
-  "mobile": "13312341234"
+  "mobile": "18810101010"
 }
 
 
@@ -26,7 +26,7 @@ POST http://localhost:8000/member/member/login
 Content-Type: application/json
 
 {
-  "mobile": "13312341234",
+  "mobile": "18810101010",
   "code": "8888"
 }
 

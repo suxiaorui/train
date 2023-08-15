@@ -12,7 +12,7 @@ import java.util.Date;
  * @Date 2023/8/14 23:16
  * @Version 1.0
  */
-public class PassengerQueryResp {
+public class PassengerQueryResp{
 
     /**
      * id

@@ -1,7 +1,9 @@
 package com.rui.train.member.controller;
 
+import com.github.pagehelper.Page;
 import com.rui.train.common.context.LoginMemberContext;
 import com.rui.train.common.resp.CommonResp;
+import com.rui.train.common.resp.PageResp;
 import com.rui.train.member.req.PassengerQueryReq;
 import com.rui.train.member.req.PassengerSaveReq;
 import com.rui.train.member.resp.PassengerQueryResp;
@@ -33,9 +35,9 @@ public class PassengerController {
     }
 
     @GetMapping("/query-list")
-    public CommonResp<List<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req){
+    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req) {
         req.setMemberId(LoginMemberContext.getId());
-        List<PassengerQueryResp> list = passengerService.queryList(req);
+        PageResp<PassengerQueryResp> list = passengerService.queryList(req);
         return new CommonResp<>(list);
     }
 }

@@ -1,12 +1,14 @@
 package com.rui.train.member.req;
 
+import com.rui.train.common.req.PageReq;
+
 /**
  * @Author suxiaorui
  * @Description TODO
  * @Date 2023/8/13 22:11
  * @Version 1.0
  */
-public class PassengerQueryReq {
+public class PassengerQueryReq extends PageReq{
 
     private Long memberId;
 
