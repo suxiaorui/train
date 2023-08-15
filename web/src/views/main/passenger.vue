@@ -2,7 +2,7 @@
   <p>
     <a-space>
       <a-button type="primary" @click="handleQuery()">刷新</a-button>
-      <a-button type="primary" @click="showModal">新增</a-button>
+      <a-button type="primary" @click="onAdd">新增</a-button>
     </a-space>
   </p>
   <a-table :dataSource="passengers"
@@ -10,6 +10,26 @@
            :pagination="pagination"
            @change="handleTableChange"
            :loading="loading">
+    <template #bodyCell="{ column, record }">
+      <template v-if="column.dataIndex === 'operation'">
+        <a-space>
+          <a-popconfirm
+              title="删除后不可恢复，确认删除?"
+              @confirm="onDelete(record)"
+              ok-text="确认" cancel-text="取消">
+            <a style="color: red">删除</a>
+          </a-popconfirm>
+          <a @click="onEdit(record)">编辑</a>
+        </a-space>
+      </template>
+      <template v-else-if="column.dataIndex === 'type'">
+        <span v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code">
+          <span v-if="item.code === record.type">
+            {{item.desc}}
+          </span>
+        </span>
+      </template>
+    </template>
   </a-table>
   <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk"
            ok-text="确认" cancel-text="取消">
@@ -22,9 +42,9 @@
       </a-form-item>
       <a-form-item label="旅客类型">
         <a-select v-model:value="passenger.type">
-          <a-select-option value="1">成人</a-select-option>
-          <a-select-option value="2">儿童</a-select-option>
-          <a-select-option value="3">学生</a-select-option>
+          <a-select-option v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code" :value="item.code">
+            {{item.desc}}
+          </a-select-option>
         </a-select>
       </a-form-item>
     </a-form>
@@ -32,15 +52,16 @@
 </template>
 
 <script>
-
-import { defineComponent, ref, reactive, onMounted} from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 
 export default defineComponent({
+  name: "passenger-view",
   setup() {
+    const PASSENGER_TYPE_ARRAY = window.PASSENGER_TYPE_ARRAY;
     const visible = ref(false);
-    let passenger = reactive({
+    let passenger = ref({
       id: undefined,
       memberId: undefined,
       name: undefined,
@@ -78,11 +99,34 @@ export default defineComponent({
         dataIndex: 'operation'
       }
     ];
-    const showModal = () => {
+
+    const onAdd = () => {
+      passenger.value = {};
       visible.value = true;
     };
+
+    const onEdit = (record) => {
+      passenger.value = window.Tool.copy(record);
+      visible.value = true;
+    };
+
+    const onDelete = (record) => {
+      axios.delete("/member/passenger/delete/" + record.id).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          notification.success({description: "删除成功！"});
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize,
+          });
+        } else {
+          notification.error({description: data.message});
+        }
+      });
+    };
+
     const handleOk = () => {
-      axios.post("/member/passenger/save", passenger).then((response) => {
+      axios.post("/member/passenger/save", passenger.value).then((response) => {
         let data = response.data;
         if (data.success) {
           notification.success({description: "保存成功！"});
@@ -140,16 +184,19 @@ export default defineComponent({
     });
 
     return {
+      PASSENGER_TYPE_ARRAY,
       passenger,
       visible,
-      showModal,
-      handleOk,
-      loading,
       passengers,
       pagination,
       columns,
       handleTableChange,
-      handleQuery
+      handleQuery,
+      loading,
+      onAdd,
+      handleOk,
+      onEdit,
+      onDelete
     };
   },
 });
