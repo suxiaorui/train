@@ -3,6 +3,7 @@ package com.rui.train.business.controller.admin;
 import com.rui.train.business.req.TrainQueryReq;
 import com.rui.train.business.req.TrainSaveReq;
 import com.rui.train.business.resp.TrainQueryResp;
+import com.rui.train.business.service.TrainSeatService;
 import com.rui.train.business.service.TrainService;
 import com.rui.train.common.resp.CommonResp;
 import com.rui.train.common.resp.PageResp;
@@ -24,6 +25,9 @@ public class TrainAdminController {
 
     @Resource
     private TrainService trainService;
+
+    @Resource
+    private TrainSeatService trainSeatService;
 
 
     @PostMapping("/save")
@@ -50,6 +54,10 @@ public class TrainAdminController {
         return new CommonResp<>(list);
     }
 
-
+    @GetMapping("/gen-seat/{trainCode}")
+    public CommonResp<Object> genSeat(@PathVariable String trainCode) {
+        trainSeatService.genTrainSeat(trainCode);
+        return new CommonResp<>();
+    }
 }
 
