@@ -8,6 +8,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rui.train.business.domain.TrainCarriage;
 import com.rui.train.business.domain.TrainCarriageExample;
+import com.rui.train.business.enums.SeatColEnum;
 import com.rui.train.business.mapper.TrainCarriageMapper;
 import com.rui.train.business.req.TrainCarriageQueryReq;
 import com.rui.train.business.req.TrainCarriageSaveReq;
@@ -39,6 +40,11 @@ public class TrainCarriageService {
 
     public void save(TrainCarriageSaveReq req) {
         DateTime now = DateTime.now();
+
+        // 自动计算出列数和总座位数
+        List<SeatColEnum> seatColEnums = SeatColEnum.getColsByType(req.getSeatType());
+        req.setColCount(seatColEnums.size());
+        req.setSeatCount(req.getColCount() * req.getRowCount());
 
         TrainCarriage trainCarriage = BeanUtil.copyProperties(req, TrainCarriage.class);
         if (ObjectUtil.isNull(trainCarriage.getId())) {
