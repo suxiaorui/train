@@ -75,18 +75,18 @@ export default defineComponent({
       dataIndex: 'trainCode',
       key: 'trainCode',
     },
-    {
-      title: '车站',
-      dataIndex: 'station',
-    },
-    {
-      title: '时间',
-      dataIndex: 'time',
-    },
-    {
-      title: '历时',
-      dataIndex: 'duration',
-    },
+    // {
+    //   title: '车站',
+    //   dataIndex: 'station',
+    // },
+    // {
+    //   title: '时间',
+    //   dataIndex: 'time',
+    // },
+    // {
+    //   title: '历时',
+    //   dataIndex: 'duration',
+    // },
     {
       title: '出发站',
       dataIndex: 'start',
