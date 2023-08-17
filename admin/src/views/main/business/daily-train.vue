@@ -5,6 +5,7 @@
       <train-select-view v-model="params.code" width="200px"></train-select-view>
       <a-button type="primary" @click="handleQuery()">刷新</a-button>
       <a-button type="primary" @click="onAdd">新增</a-button>
+      <a-button type="primary" danger @click="onClickGenDaily">手动生成车次信息</a-button>
     </a-space>
   </p>
   <a-table :dataSource="dailyTrains"
@@ -84,6 +85,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 import TrainSelectView from "@/components/train-select";
+import dayjs from 'dayjs';
 
 export default defineComponent({
   name: "daily-train-view",
@@ -116,6 +118,11 @@ export default defineComponent({
     let params = ref({
       code: null
     });
+    const genDaily = ref({
+      date: null
+    });
+    const genDailyVisible = ref(false);
+    const genDailyLoading = ref(false);
     const columns = [
     {
       title: '日期',
@@ -254,6 +261,29 @@ export default defineComponent({
       dailyTrain.value = Object.assign(dailyTrain.value, t);
     };
 
+    const onClickGenDaily = () => {
+      genDailyVisible.value = true;
+    };
+
+    const handleGenDailyOk = () => {
+      let date = dayjs(genDaily.value.date).format("YYYY-MM-DD");
+      genDailyLoading.value = true;
+      axios.get("/business/admin/daily-train/gen-daily/" + date).then((response) => {
+        genDailyLoading.value = false;
+        let data = response.data;
+        if (data.success) {
+          notification.success({description: "生成成功！"});
+          genDailyVisible.value = false;
+          handleQuery({
+            page: pagination.value.current,
+            size: pagination.value.pageSize
+          });
+        } else {
+          notification.error({description: data.message});
+        }
+      });
+    };
+
 
 
     onMounted(() => {
@@ -279,6 +309,11 @@ export default defineComponent({
       onDelete,
       onChangeCode,
       params,
+      genDaily,
+      genDailyVisible,
+      handleGenDailyOk,
+      onClickGenDaily,
+      genDailyLoading
     };
   },
 });
