@@ -1,15 +1,12 @@
 package com.rui.train.business.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rui.train.business.domain.DailyTrain;
 import com.rui.train.business.domain.DailyTrainExample;
-import com.rui.train.business.domain.Train;
 import com.rui.train.business.mapper.DailyTrainMapper;
 import com.rui.train.business.req.DailyTrainQueryReq;
 import com.rui.train.business.req.DailyTrainSaveReq;
@@ -21,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
