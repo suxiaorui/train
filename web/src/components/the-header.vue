@@ -1,6 +1,5 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo" />
     <div style="float: right; color: white;">
       您好：{{member.mobile}} &nbsp;&nbsp;
       <router-link to="/login" style="color: white;">
@@ -21,6 +20,11 @@
       <a-menu-item key="/passenger">
         <router-link to="/passenger">
           <user-outlined /> &nbsp; 乘车人管理
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="/ticket">
+        <router-link to="/ticket">
+          <user-outlined /> &nbsp; 余票查询
         </router-link>
       </a-menu-item>
     </a-menu>
@@ -54,5 +58,4 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
