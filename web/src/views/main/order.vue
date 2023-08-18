@@ -96,6 +96,7 @@
     </div>
     <br/>
     最终购票：{{tickets}}
+    最终选座：{{chooseSeatObj}}
   </a-modal>
 </template>
 
