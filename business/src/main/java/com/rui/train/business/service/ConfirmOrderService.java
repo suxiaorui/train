@@ -190,7 +190,7 @@ public class ConfirmOrderService {
             }
         }
         LOG.info("最终选座：{}", finalSeatList);
-        afterConfirmOrderService.afterDoConfirm(dailyTrainTicket,finalSeatList);
+        afterConfirmOrderService.afterDoConfirm(dailyTrainTicket, finalSeatList, tickets, confirmOrder);
     }
 
     private static void reduceTickets(ConfirmOrderDoReq req, DailyTrainTicket dailyTrainTicket) {
