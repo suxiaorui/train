@@ -3,7 +3,9 @@ package com.rui.train.business.service;
 import com.rui.train.business.domain.ConfirmOrder;
 import com.rui.train.business.domain.DailyTrainSeat;
 import com.rui.train.business.domain.DailyTrainTicket;
+import com.rui.train.business.enums.ConfirmOrderStatusEnum;
 import com.rui.train.business.feign.MemberFeign;
+import com.rui.train.business.mapper.ConfirmOrderMapper;
 import com.rui.train.business.mapper.DailyTrainSeatMapper;
 import com.rui.train.business.mapper.cust.DailyTrainTicketMapperCust;
 import com.rui.train.business.req.ConfirmOrderTicketReq;
@@ -38,6 +40,9 @@ public class AfterConfirmOrderService {
 
     @Resource
     private MemberFeign memberFeign;
+
+    @Resource
+    private ConfirmOrderMapper confirmOrderMapper;
 
 
     /**
@@ -125,6 +130,13 @@ public class AfterConfirmOrderService {
             memberTicketReq.setSeatType(dailyTrainSeat.getSeatType());
             CommonResp<Object> commonResp = memberFeign.save(memberTicketReq);
             LOG.info("调用member接口，返回：{}", commonResp);
+
+            // 更新订单状态为成功
+            ConfirmOrder confirmOrderForUpdate = new ConfirmOrder();
+            confirmOrderForUpdate.setId(confirmOrder.getId());
+            confirmOrderForUpdate.setUpdateTime(new Date());
+            confirmOrderForUpdate.setStatus(ConfirmOrderStatusEnum.SUCCESS.getCode());
+            confirmOrderMapper.updateByPrimaryKeySelective(confirmOrderForUpdate);
         }
     }
 }
