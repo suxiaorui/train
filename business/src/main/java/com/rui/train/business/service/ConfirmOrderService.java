@@ -15,6 +15,7 @@ import com.rui.train.business.enums.ConfirmOrderStatusEnum;
 import com.rui.train.business.enums.SeatColEnum;
 import com.rui.train.business.enums.SeatTypeEnum;
 import com.rui.train.business.mapper.ConfirmOrderMapper;
+import com.rui.train.business.mapper.cust.DailyTrainTicketMapperCust;
 import com.rui.train.business.req.ConfirmOrderDoReq;
 import com.rui.train.business.req.ConfirmOrderQueryReq;
 import com.rui.train.business.req.ConfirmOrderTicketReq;
@@ -58,7 +59,6 @@ public class ConfirmOrderService {
 
     @Resource
     private AfterConfirmOrderService afterConfirmOrderService;
-
 
     public void save(ConfirmOrderDoReq req) {
         DateTime now = DateTime.now();
@@ -190,7 +190,7 @@ public class ConfirmOrderService {
             }
         }
         LOG.info("最终选座：{}", finalSeatList);
-        afterConfirmOrderService.afterDoConfirm(finalSeatList);
+        afterConfirmOrderService.afterDoConfirm(dailyTrainTicket,finalSeatList);
     }
 
     private static void reduceTickets(ConfirmOrderDoReq req, DailyTrainTicket dailyTrainTicket) {
