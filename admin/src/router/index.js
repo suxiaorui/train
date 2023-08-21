@@ -40,7 +40,10 @@ const routes = [
       {
         path: 'business/',
         children: [{
-          path: 'confirm-order',
+          path: 'sk-token',
+          component: () => import('../views/main/business/sk-token.vue'),
+        },
+        { path: 'confirm-order',
           component: () => import('../views/main/business/confirm-order.vue'),
         },
         {

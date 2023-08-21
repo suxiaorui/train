@@ -27,8 +27,8 @@ public class BusinessApplication {
         LOG.info("启动成功~");
 
         //  限流规则
-        initFlowRules();
-        LOG.info("已定义限流规则");
+//        initFlowRules();
+//        LOG.info("已定义限流规则");
     }
 
 
