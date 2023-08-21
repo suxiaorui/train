@@ -1,6 +1,7 @@
 package com.rui.train.business.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -9,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.rui.train.business.domain.SkToken;
 import com.rui.train.business.domain.SkTokenExample;
 import com.rui.train.business.mapper.SkTokenMapper;
+import com.rui.train.business.mapper.cust.SkTokenMapperCust;
 import com.rui.train.business.req.SkTokenQueryReq;
 import com.rui.train.business.req.SkTokenSaveReq;
 import com.rui.train.business.resp.SkTokenQueryResp;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author suxiaorui
@@ -42,6 +45,9 @@ public class SkTokenService {
     @Resource
     private DailyTrainStationService dailyTrainStationService;
 
+
+    @Resource
+    private SkTokenMapperCust skTokenMapperCust;
 
     /**
      * 初始化
@@ -115,5 +121,20 @@ public class SkTokenService {
         skTokenMapper.deleteByPrimaryKey(id);
     }
 
+
+    /**
+     * 校验令牌
+     */
+    public boolean validSkToken(Date date, String trainCode, Long memberId) {
+        LOG.info("会员【{}】获取日期【{}】车次【{}】的令牌开始", memberId, DateUtil.formatDate(date), trainCode);
+
+//       令牌约等于库存，令牌没有了，就不再卖票，不需要再进入购票主流程去判断库存，判断令牌肯定比判断库存效率高
+         int updateCount = skTokenMapperCust.decrease(date, trainCode, 1);
+         if (updateCount > 0) {
+             return true;
+         } else {
+             return false;
+         }
+    }
 }
 
