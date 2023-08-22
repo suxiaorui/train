@@ -1,6 +1,7 @@
 package com.rui.train.business.controller;
 
 import com.rui.train.business.req.ConfirmOrderDoReq;
+import com.rui.train.business.service.BeforeConfirmOrderService;
 import com.rui.train.business.service.ConfirmOrderService;
 import com.rui.train.common.resp.CommonResp;
 import jakarta.annotation.Resource;
@@ -23,11 +24,11 @@ public class ConfirmOrderController {
 
 
     @Resource
-    private ConfirmOrderService confirmOrderService;
+    private BeforeConfirmOrderService beforeConfirmOrderService;
 
     @PostMapping("/do")
     public CommonResp<Object> doConfirm(@Valid @RequestBody ConfirmOrderDoReq req) {
-        confirmOrderService.doConfirm(req);
+        beforeConfirmOrderService.beforeDoConfirm(req);
         return new CommonResp<>();
     }
 }
